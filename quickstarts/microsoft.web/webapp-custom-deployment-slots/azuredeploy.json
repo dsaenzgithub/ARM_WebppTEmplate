@@ -5,7 +5,7 @@
     "baseResourceName": {
       "type": "string",
       "metadata": {
-        "description": "Name of the resource"
+        "description": "java5git"
       },
       "maxLength": 15
     },
@@ -19,9 +19,7 @@
     "environments": {
       "defaultValue": [
         "Dev",
-        "QA",
-        "UAT",
-        "Preview"
+        "Staging"
       ],
       "type": "array",
       "metadata": {
@@ -39,8 +37,8 @@
   },
   "variables": {
     "standardPlanMaxAdditionalSlots": 4,
-    "webAppPortalName": "[concat(parameters('baseResourceName'), 'Portal')]",
-    "appServicePlanName": "[concat('AppServicePlan-', parameters('baseResourceName'))]",
+    "webAppPortalName": "java5git",
+    "appServicePlanName": "java5git_plan",
     "stickyAppSettingName": "[concat(parameters('appSettingName'), '-sticky')]"
   },
   "resources": [
@@ -48,26 +46,26 @@
       "apiVersion": "2020-06-01",
       "type": "Microsoft.Web/serverfarms",
       "kind": "app",
-      "name": "[variables('appServicePlanName')]",
+      "name": "Plan P1v2 - Staging",
       "location": "[parameters('location')]",
       "comments": "This app service plan is used for the web app and slots.",
       "tags": {
-        "displayName": "AppServicePlan"
+        "displayName": "Plan P1v2 - Staging"
       },
       "properties": {},
       "sku": {
-        "name": "[if(lessOrEquals(length(parameters('environments')), variables('standardPlanMaxAdditionalSlots')), 'S1', 'P1')]"
+        "name": "P1v2"
       }
     },
     {
       "apiVersion": "2020-06-01",
       "type": "Microsoft.Web/sites",
       "kind": "app",
-      "name": "[variables('webAppPortalName')]",
+      "name": "java5git",
       "location": "[parameters('location')]",
       "comments": "This is the web app, also the default 'nameless' slot.",
       "tags": {
-        "displayName": "WebApp"
+        "displayName": "java5git"
       },
       "properties": {
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('appServicePlanName'))]",
